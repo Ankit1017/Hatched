@@ -9,4 +9,4 @@
 ![Screenshot 2023-10-28 083455](https://github.com/Ankit1017/Hatched/assets/98407157/a0b9be72-548f-4b7c-93ad-99b3dcd81de1)
 ![Screenshot 2023-10-28 083529](https://github.com/Ankit1017/Hatched/assets/98407157/39df2af6-787d-4908-ae88-ab788f056eed)
 ![Screenshot 2023-10-28 083607](https://github.com/Ankit1017/Hatched/assets/98407157/5594aeca-6fbe-4019-9926-eb06fdf8c79f)
-![Screenshot 2023-10-28 083630](https://github.com/Ankit1017/Hatched/assets/98407157/e82c1924-748c-4298-9ff7-b7047b5d6f91)
+
