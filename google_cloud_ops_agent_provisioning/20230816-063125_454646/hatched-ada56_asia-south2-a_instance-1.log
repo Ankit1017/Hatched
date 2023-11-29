@@ -1,0 +1,20 @@
+Installing ops-agent
+2023-08-16T06:31:25,458674407+00:00 Starting running commands.
+cp: cannot stat '/etc/google-fluentd': No such file or directory
+/etc/google-fluentd is now copied over to /var/lib/google-cloud-ops-agent/saved_configs folder.
+cp: cannot stat '/etc/stackdriver': No such file or directory
+cp: cannot stat '/opt/stackdriver/collectd/etc': No such file or directory/etc/stackdriver /opt/stackdriver/collectd/etc is now copied over to /var/lib/google-cloud-ops-agent/saved_configs folder.
+
+Hit:1 https://deb.debian.org/debian bullseye InRelease
+Hit:2 https://deb.debian.org/debian-security bullseye-security InRelease
+Hit:3 https://deb.debian.org/debian bullseye-updates InRelease
+Hit:4 https://deb.debian.org/debian bullseye-backports InRelease
+Hit:5 https://packages.cloud.google.com/apt google-cloud-ops-agent-bullseye-all InRelease
+Hit:6 https://packages.cloud.google.com/apt google-compute-engine-bullseye-stable InRelease
+Hit:7 https://packages.cloud.google.com/apt cloud-sdk-bullseye InRelease
+Reading package lists...
+No changes made.
+root        2588  0.0  6.5 1303968 38396 ?       Ssl  06:28   0:00 /opt/google-cloud-ops-agent/libexec/google_cloud_ops_agent_wrapper -config_path /etc/google-cloud-ops-agent/config.yaml -log_path /var/log/google-cloud-ops-agent/subagents/logging-module.log /opt/google-cloud-ops-agent/subagents/fluent-bit/bin/fluent-bit --config /run/google-cloud-ops-agent-fluent-bit/fluent_bit_main.conf --parser /run/google-cloud-ops-agent-fluent-bit/fluent_bit_parser.conf --storage_path /var/lib/google-cloud-ops-agent/fluent-bit/buffers
+root        2602  0.0  2.9 716520 17452 ?        Sl   06:28   0:00 /opt/google-cloud-ops-agent/subagents/fluent-bit/bin/fluent-bit --config /run/google-cloud-ops-agent-fluent-bit/fluent_bit_main.conf --parser /run/google-cloud-ops-agent-fluent-bit/fluent_bit_parser.conf --storage_path /var/lib/google-cloud-ops-agent/fluent-bit/buffers
+google-cloud-ops-agent runs successfully.
+2023-08-16T06:31:25,459361387+00:00 Finished running commands.

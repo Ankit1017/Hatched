@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Hatched</title>
+        <link rel="stylesheet" type="text/css"
+            href="{{ url_for('static', filename='style.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="apple-touch-icon" sizes="180x180"
+            href="https://i.ibb.co/h2CwbCZ/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32"
+            href="https://i.ibb.co/Qcsz7Wq/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16"
+            href="https://i.ibb.co/JmFvZ1L/favicon-16x16.png">
+        <link rel="manifest" href="/static/site.webmanifest">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Edu+SA+Beginner:wght@600&family=Chalkboard&family=Belanosima:wght@600&family=Alegreya:wght@800&family=Noto+Serif:wght@900&family=Oswald:wght@500&family=Quicksand:wght@500&display=swap"
+            rel="stylesheet">
+    </head>
+    <style>
+    body{
+        background-image: url(https://cdn.builder.io/api/v1/image/assets%2FYJIGb4i01jvw0SRdL5Bt%2F56b24a0ed886439998c5e92b75fce660?width=2000);
+    }
+    .container {
+        max-width: 100vw;
+        height: 81vh;
+    }
+    h1 {
+        margin: 0;
+        font-size: 40px;
+    }
+    .question-list {
+        max-height: 64vh;
+        overflow-y: scroll;
+    }
+    
+    #ad{
+        visibility: hidden;
+    }
+    input[type="text"] {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+    }
+    .t{
+        font-size: 40px;
+      }
+      @media (max-width:400px){
+        .t{
+            font-size: 30px;
+            left: 10px;
+          }
+      }
+</style>
+    <body>
+        <header>
+            <nav>
+                <div class="c">
+                    <h1 class="t">Institute Page</h1>
+                </div>
+                {% if current_user !="Blorptangle" %}
+                <div class="dropdown">
+                    <img id="dropdown-btn" class="user dropbtn"
+                        src="{{photo}}" alt>
+                    <div id="dropdown-content" class="dropdown-content">
+                        <a href="/{{ current_user }}"> {{ current_user }}</a>
+                        <a href="{{ url_for('logout') }}" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="dropdown">
+                    <img id="dropdown-btn" class="user dropbtn"
+                        src="https://i.ibb.co/fvGNyDk/user.png" alt>
+                    <div id="dropdown-content" class="dropdown-content">
+                        <a href="#">Welcome home! Next Spirit</a>
+                        <a href="/login" id="logout-btn">Login</a>
+                    </div>
+                </div>
+                {% endif %}
+            </nav>
+        </header>
+
+        <main>
+            <div class="container ">
+                <h2>Select an Institute:</h2>
+                {% if current_user !="Blorptangle" %}
+                <form action="{{ url_for('add_institute') }}" method="post">
+                    <input type="text" name="institute_name" id="search-input"
+                        placeholder="Enter Institute Name" required>
+                    <button type="submit" id="ad">Add Institute</button>
+                </form>
+                {% else %}<form action="{{ url_for('login') }}">
+                    <input type="text" name="institute_name" id="search-input"
+                        placeholder="Enter Institute Name" required>
+                    <button type="submit" id="ad">Add Institute</button>
+                </form>
+
+                {% endif %}
+
+                <div class="question-list">
+                    <ul id="questions"></ul>
+                </div>
+            </div>
+        </main>
+        <script>  
+            var questions = JSON.parse('{{institutes|tojson}}')
+            document.addEventListener('DOMContentLoaded', function() {
+                const questionsList = document.getElementById('questions');
+                const searchInput = document.getElementById('search-input');
+                function populateQuestions() {
+                    questionsList.innerHTML = '';
+                    questions.forEach(function(question) {
+                        const li = document.createElement('li');
+                        li.classList.add('question');
+                        const text = document.createElement('span');
+                        text.classList.add('question-text');
+                        text.textContent = question;
+                        const link = document.createElement('a');
+                        link.href = "/queries/"+question;
+                        link.appendChild(text)
+                        li.appendChild(link)
+                        questionsList.appendChild(li);
+                    });
+                }
+                function handleSearch() {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const filteredQuestions = questions.filter(function(question) {
+                        return question.toLowerCase().includes(searchTerm);
+                    });
+            
+                    questionsList.innerHTML = '';
+                    if(filteredQuestions.length ==0){
+                        document.querySelector("#ad").style.visibility='visible';
+                    }
+                    else{
+                        document.querySelector("#ad").style.visibility='hidden';
+                    }
+                    if( document.getElementById('search-input').value===""){
+                        document.querySelector("#ad").style.visibility='hidden';
+                    }
+                    filteredQuestions.forEach(function(question) {
+                        const li = document.createElement('li');
+                        li.classList.add('question');
+                        const text = document.createElement('span');
+                        text.classList.add('question-text');
+                        text.textContent = question;
+                        const link = document.createElement('a');
+                        link.href = "/queries/"+question;
+                        link.appendChild(text)
+                        li.appendChild(link)
+                        questionsList.appendChild(li);
+                        
+                    });
+                }
+                populateQuestions()
+                searchInput.addEventListener('input', handleSearch);
+            });
+        </script>
+
+    </body>
+</html>

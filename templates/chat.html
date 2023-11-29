@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hatched - {{ institute_name }}</title>
+    <link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='style.css') }}">
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+      integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+      crossorigin="anonymous"></script>
+    <link rel="apple-touch-icon" sizes="180x180"
+      href="https://i.ibb.co/h2CwbCZ/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+      href="https://i.ibb.co/Qcsz7Wq/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+      href="https://i.ibb.co/JmFvZ1L/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Chalkboard&family=REM&display=swap&family=Edu+SA+Beginner:wght@700&family=Belanosima:wght@600&family=Alegreya:wght@800&family=Noto+Serif:wght@900&family=Oswald:wght@500&family=Quicksand:wght@500&display=swap"
+      rel="stylesheet">
+  </head>
+  <style>
+    body::before{
+    content: "";
+    background-image: url("https://i.ibb.co/K7rqCTM/WhatsApp.jpg");
+    display: flex;
+    background-position: center;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    opacity: 0.6; /* Adjust the opacity as desired */
+    z-index: -1;
+    flex-direction: column;
+  }
+    .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .message-box {
+        border-radius: 10px;
+        background-color: transparent;
+        height: 74vh;
+        display: flex;
+        flex-direction: column;
+        width: 96vw;
+        align-items: stretch;
+      }
+      .container{
+        max-width: 100vw;
+        height: fit-content;
+      }
+      .messages {
+        overflow-y: scroll;
+        flex: 1;
+        width: 100%;
+      }
+      .inputs {
+        height: max-content;
+        min-height: 22vh;
+        font-family: 'Quicksand', sans-serif;
+        display: none;
+      }
+      #message {
+        width: 100%;
+        font-size: 20px;
+        height:0;
+        transition-property: height;
+        transition-duration: 1s;
+      }
+     textarea{
+      border: 1px solid #8080806b;
+      font-family: Chalkboard,comic sans ms,sanssecondaryerif;
+    }
+      .muted {
+        font-size: 10px;
+        color: darkgray;
+        text-align: right;
+      }
+      .g{
+        margin: 0;
+        font-family: Oswald;
+      }
+      .t{
+        top: -20px;
+        font-size: 40px;
+      }
+      .date {
+        margin-top: auto;
+        font-size: 12px;
+        color: #888;
+      }
+      .o{
+        display: inline-flex;
+        background-color: #fff;
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ccc;
+        align-items: center;
+        border-radius: 50%;
+        margin-left: 10px;
+      }
+      .post-container {
+        box-shadow: 0 2px 3px rgb(0 0 0 / 25%);
+        background-color: white;
+        padding: 10px;
+        width: 90vw;
+        margin: 10px;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+      }
+      .post-header {
+        display: flex;
+      }
+      .upvote-button {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+      }
+      .upvote-button img {
+        width: 20px;
+        height: 20px;
+      }
+      .upvote-button.active{
+        background-color: #000;
+        color: #ccc;
+    }
+      #l1{
+        margin: auto;
+        width: 20px;
+        height: 20px;
+      }
+      .post-info {
+        flex: 1;
+        width: 20vw;
+      }
+      .post-name {
+        margin: 0;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .post-message {
+        margin: 5px 0;
+        font-size: 20px;
+        font-family: 'REM', sans-serif;
+      }
+      .upvote-count {
+        font-size: 16px;
+        color: #888;
+        align-items: center;
+      }
+      .delete-button {
+        width: 30px;
+        height: 30px;
+        align-items: center;
+        padding-left: 10px;
+        padding-top: 5px;
+      }
+      .delete-button img {
+        width: 20px;
+        height: 20px;
+      }
+      .delete-button img:hover {
+        cursor: pointer;
+      }
+      .y{
+        padding-left: 15px;
+        padding-top: 5px;
+      }
+      @media (max-width:786px){
+      
+         .post-container{
+          width: 75vw;
+         }
+        
+      }
+      @media (min-width: 786px){
+            body::before{
+            content: "";
+            background-image: url("https://i.ibb.co/grDpwmb/WhatsApp.jpg");
+            display: flex;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            opacity: 0.15; /* Adjust the opacity as desired */
+            z-index: -1;
+            flex-direction: column;
+        }
+      }
+      .g{
+        font-family: 'Edu SA Beginner', cursive;
+      }
+      .fc{
+        position: absolute;
+        left: 1rem;
+        top: 9px;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+      }
+      .ic{
+        width: 50px;
+        height: 50px;
+      }
+      .c,h1{
+        margin: 0;
+      }
+    </style>
+  <body>
+    <header>
+      <nav>
+        <div class="c">
+          <a href="/queries/{{institute_name}}">
+            <div class="fc"><img class="ic"
+                src="https://i.ibb.co/WWwxCjQ/H-4.png" alt></div></a>
+        </div>
+        {% if name !="Blorptangle" %}
+        <div class="dropdown">
+          <img id="dropdown-btn" class="user dropbtn"
+            src="{{photo}}" alt>
+          <div id="dropdown-content" class="dropdown-content">
+            
+            <a href="/{{ name }}"> {{ name }}</a>
+            <a href="{{ url_for('logout') }}" id="logout-btn">Logout</a>
+            </div>
+        </div>
+        {% else %}
+            <div class="dropdown">
+                <img id="dropdown-btn" class="user dropbtn"
+                  src="https://i.ibb.co/fvGNyDk/user.png" alt>
+                <div id="dropdown-content" class="dropdown-content">
+            <a href="#">Welcome home! Next Spirit</a>
+            <a href="/login" id="logout-btn">Login</a>
+            
+          </div>
+        </div>
+        {% endif %}
+      </nav>
+    </header>
+    <main>
+      <div class="container">
+        <h1 class="g">{{code}}<div class="o"><img id="l1"
+              src="https://i.ibb.co/DDR20CX/paper-plane.png" alt="img"></div></h1>
+        <div class="inputs" id="input">
+          <textarea type="text" placeholder="Want to Answer" name="message"
+            id="message"></textarea>
+          {% if name !="Blorptangle" %}
+          <button type="button" name="send" id="send-btn"
+            onClick="sendMessage()">Send</button>
+          {% else %}
+          <button class="btn btn-dark" id="send-btn"><a href="/login"
+              class="logout-btn">Send</a></button>
+          {% endif %}
+        </div>
+        <div class="message-box" id="msg-box">
+          <div class="messages" id="messages"></div>
+        </div>
+      </div>
+    </main>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script type="text/javascript">
+      const textarea = document.getElementById('message');
+      const adder=document.getElementById('l1');
+      const inp=document.getElementById('input');
+      const box=document.getElementById('msg-box');
+      const msg=document.getElementById('message');
+      let r=0;
+      adder.addEventListener('click',function(){
+        if(r===0){
+          inp.style.display='inline';
+          box.style.height='47vh'
+          setTimeout(function(){
+            msg.style.setProperty('height','20vh');
+          },100)
+          setTimeout(function(){
+            msg.style.setProperty('min-height','20vh');
+          },500)
+          
+          r=1;
+        }
+        else{
+          msg.style.setProperty('height','0vh');
+          setTimeout(function(){
+            inp.style.display='none';
+          },500)
+          msg.style.setProperty('min-height','0vh');
+          box.style.height='74vh'
+          r=0;
+        }
+      });
+      function autoExpandTextarea() {
+        textarea.style.height = 'auto';
+        
+        textarea.style.height = textarea.scrollHeight + 'px';
+        if (textarea.scrollHeight < parseInt(previousHeight)) {
+          // Content has been removed, resize back to normal
+          textarea.style.height = "auto"; // Reset to auto
+          textarea.style.height = textarea.scrollHeight + "px"; // Update height
+        }
+      }
+      function urlify(text) {
+            var urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function(url) {
+              return '<a href="' + url + '">' + url + '</a>';
+            })
+          }
+      textarea.addEventListener('input', autoExpandTextarea);
+      window.addEventListener('load', autoExpandTextarea);
+        var socketio = io();
+        const messages = document.getElementById("messages");
+        function getWhatsAppPastTime(timestamp) {
+          var currentTime = new Date();
+          var pastTime = new Date(timestamp);
+          var timeDifference = Math.floor((currentTime - pastTime) / 1000);
+          if (timeDifference < 60) {
+            return 'Just now';
+          } else if (timeDifference < 3600) {
+            var minutes = Math.floor(timeDifference / 60);
+            return minutes + ' minutes ago';
+          } else if (timeDifference < 86400) {
+            var hours = Math.floor(timeDifference / 3600);
+            return hours + ' hours ago';
+          } else {
+            var days = Math.floor(timeDifference / 86400);
+            return days + ' days ago';
+          }
+        }
+        var timestamp = new Date(); 
+        var pastAwayTime = getWhatsAppPastTime(timestamp);
+        const sh = (message_id,upvotes) => {
+          document.getElementById('upvotes_' + message_id).innerText = upvotes;
+        }
+        const sh1=(data)=>{
+          document.getElementById('post-container_' + data).remove();
+        }
+        socketio.on('upvote', function(data) {
+            sh(data.message_id,data.upvotes);
+        });
+        socketio.on('delete', function(data) {
+          sh1(data);
+      });
+        const createMessage = (mss_id,name, msg,ti,up,em) => {
+          const content = `
+          <div class="post-container" id="post-container_${mss_id}">
+            <div class="post-header">
+              <div class="s">
+                <div class="upvote-button" id="upvote-button-${mss_id}" onClick="upvote('${mss_id}')">
+                  <img src="https://i.ibb.co/68VtWYk/arrow-up.png" border="0" alt="Upvote" >
+                </div>
+                <div class="upvote-count">
+                  <span class="y" id="upvotes_${mss_id}">${up}</span>
+                </div>
+                <div class="delete-button" id="${em}" onClick="delete_msg('${mss_id}',${em})">
+                  <img src="https://i.ibb.co/Ydz6QK3/trash.png" border="0" alt="Delete" >
+                </div>
+              </div>
+              <div class="post-info">
+                <h2 class="post-name">${name}</h2>
+                <p class="post-message">${msg}</p>
+              </div>
+            </div>
+            <div class="date muted">${getWhatsAppPastTime(ti)}</div>
+          </div>
+          `;
+          messages.innerHTML += content;
+        };
+        const sendMessage = () => {
+          textarea.style.height = 'auto';
+          msg.style.setProperty('height','0vh');
+          setTimeout(function(){
+            inp.style.display='none';
+          },500)
+          msg.style.setProperty('min-height','0vh');
+          box.style.height='74vh'
+          r=0;
+          setTimeout(function(){
+            msg.style.setProperty('height','0vh');
+          },100)
+          const message = document.getElementById("message");
+          if (message.value == "") return;
+          createMessage("rddjvk","{{name}}", urlify(message.value),Date(),"0","{{ema}}");
+          socketio.emit("message", { data: message.value ,time:new Date(),upvote:0});
+          message.value = "";
+        };
+        function upvote(message) {
+          if(JSON.parse('{{name|tojson}}')!="Blorptangle") 
+            document.getElementById('upvote-button-'+message).classList.add("active");
+            setTimeout(function(){
+                document.getElementById('upvote-button-'+message).classList.remove("active");
+            },200)
+            socketio.emit('upvote', message);   
+      }
+      function delete_msg(message,nm) {
+        if(nm==JSON.parse("{{ema}}"))
+          socketio.emit('delete', message);
+    }
+    </script>
+    <script type="text/javascript"> 
+    </script>
+    {% for msg in messages%}
+    <script type="text/javascript">
+        function urlify(text) {
+            var urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function(url) {
+              return '<a href="' + url + '">' + url + '</a>';
+            })
+          }
+        createMessage("{{msg.mss_id}}","{{msg.name}}", urlify("{{msg.message}}"),"{{msg.time}}","{{msg.upvote}}","{{msg.email}}");
+        </script>
+    {% endfor %}
+  </body>
+</html>

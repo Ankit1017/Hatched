@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Hatched-Profile</title>
+        <link rel="stylesheet" type="text/css"
+            href="{{ url_for('static', filename='style.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="apple-touch-icon" sizes="180x180"
+            href="https://i.ibb.co/h2CwbCZ/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32"
+            href="https://i.ibb.co/Qcsz7Wq/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16"
+            href="https://i.ibb.co/JmFvZ1L/favicon-16x16.png">
+        <link rel="manifest" href="/static/site.webmanifest">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Chalkboard&family=REM&family=Belanosima:wght@600&family=Alegreya:wght@800&family=Noto+Serif:wght@900&family=Oswald:wght@500&family=Quicksand:wght@500&display=swap"
+            rel="stylesheet">
+    </head>
+    <style>
+    .usi{
+        width: 150px;
+        height: 150px;
+    }
+    .un{
+        position: absolute;
+        top: 100px;
+        left: 250px;
+    }
+    .a{
+        display: flex-inline;
+        align-items: center;
+        padding: 0.75rem;
+        --tw-bg-opacity: 1;
+        background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    .container{
+        height: fit-content;
+    }
+    p{
+        font-family: 'REM', sans-serif;
+    }
+    @media only screen and (max-width: 480px){
+        .un{
+            left: 180px;
+        }
+        .l{
+            margin-top: 20px;
+        }
+    
+    }
+    @media only screen and (max-width: 320px){
+        .un{
+            left: 180px;
+        }
+        .l{
+            margin-top: 40px;
+        }
+        
+    }
+</style>
+    <body>
+        <div class="container">
+            <img class="usi" src="https://i.ibb.co/fvGNyDk/user.png" alt>
+            <h2 class="un">Welcome to Hatched {{user.name}}</h2>
+            <div class="l">
+                <div class="a">
+                    <p>Number of Questions Asked: </p> <h2>{{user.query_asked}}</h2>
+                </div>
+                <div class="a">
+                    <p>Number of Upvotes Received: </p><h2>{{user.upvote_recieved}}</h2>
+                </div>
+                <div class="a">
+                    <p>Number of Answer you upvoted: </p><h2>{{user.upvote_anwser}}</h2>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
