@@ -40,4 +40,20 @@ Hatched is built using a robust stack to ensure a seamless and efficient user ex
 ![Screenshot 2023-10-28 083455](https://github.com/Ankit1017/Hatched/assets/98407157/a0b9be72-548f-4b7c-93ad-99b3dcd81de1)
 ![Screenshot 2023-10-28 083529](https://github.com/Ankit1017/Hatched/assets/98407157/39df2af6-787d-4908-ae88-ab788f056eed)
 ![Screenshot 2023-10-28 083607](https://github.com/Ankit1017/Hatched/assets/98407157/5594aeca-6fbe-4019-9926-eb06fdf8c79f)
+Usage
+Once the application is running, students can:
 
+Authenticate: Log in using their Google account.
+Ask Doubts: Submit queries for specific topics (authentication required).
+Share Knowledge: Access and contribute to the knowledge base without authentication.
+Contribution
+We welcome contributions! Please feel free to submit issues and pull requests to improve this project.
+
+License
+This project is licensed under the MIT License.
+
+Acknowledgements
+Special thanks to all contributors and the student community for their valuable feedback and support.
+
+Contact
+For any inquiries or support, please contact [bansala271@gmail.com].
